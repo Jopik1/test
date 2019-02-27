@@ -47,7 +47,7 @@ su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh > ~/nohup.out 2>&1 &
 cd ~
 su - root -c "./logtotty1.sh" &
 sleep 1259200
-shutdown -p now
+shutdown -P now
 EOL
 chmod +x service.sh
 
