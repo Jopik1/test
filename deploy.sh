@@ -31,10 +31,10 @@ cat > logtotty1.sh <<EOL
 while true
 do
   date > /dev/tty1
-  echo "Worker log" > /dev/tty1
+  tail -n 500 ~fetch/nohup.out | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
 	tail  ~fetch/nohup.out  >/dev/tty1 2>&1 
 	ls -ltra /home/fetch/prj/blogspot-comment-backup/output/  >/dev/tty1 2>&1 
-	sleep 20
+	sleep 10
 done
 EOL
 chmod +x logtotty1.sh
