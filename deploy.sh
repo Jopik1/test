@@ -72,7 +72,7 @@ ExecStop=/root/service_stop.sh
 WantedBy=default.target
 EOL
 
-sudo systemctl enable worker.service
-sudo systemctl stop worker.service
-sudo systemctl start worker.service
+systemctl enable worker.service
+systemctl stop worker.service
+systemctl start worker.service
 
