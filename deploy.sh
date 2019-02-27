@@ -1,5 +1,5 @@
 #!/bin/sh
-yum -y install python37 git wget
+yum -y install python37 git wget psmisc
 wget https://bootstrap.pypa.io/get-pip.py
 python3.7 get-pip.py
 python3.7 -m pip install aiohttp 
@@ -7,9 +7,9 @@ python3.7 -m pip install tldextract
 useradd fetch
 cd ~fetch
 killall python3.7
-sleep 5
+sleep 15
 killall -9 python3.7
-sleep 5
+sleep 10
 rm -rf prj
 mkdir prj
 cd prj
