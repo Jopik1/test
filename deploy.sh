@@ -7,6 +7,9 @@ python3.7 -m pip install tldextract
 useradd fetch
 cd ~fetch
 killall python3.7
+sleep 5
+killall -9 python3.7
+sleep 5
 rm -rf prj
 mkdir prj
 cd prj
@@ -23,8 +26,23 @@ do
 	sleep 1
 done
 EOL
-
+chmod +x runloop.sh
 su - fetch -c "nohup ~/prj/blogspot-comment-backup/src/runloop.sh &"
 
-nohup tail -f ~fetch/prj/blogspot-comment-backup/src/nohup.out | >/dev/tty1 2>&1 &
+cd ~
+
+cat > logtotty1.sh <<EOL
+#!/bin/bash
+while true
+do
+  date > /dev/tty1
+  echo "Worker log" > /dev/tty1
+	tail  ~fetch/nohup.out  >/dev/tty1 2>&1 &
+	sleep 60
+done
+EOL
+chmod +x logtotty1.sh
+
+
+nohup ./logtotty1.sh &
 
