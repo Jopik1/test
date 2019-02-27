@@ -1,5 +1,6 @@
 #!/bin/sh
 yum -y install python37 git wget psmisc
+chage --lastday 100000 root
 wget https://bootstrap.pypa.io/get-pip.py
 python3.7 get-pip.py
 python3.7 -m pip install aiohttp 
@@ -33,7 +34,7 @@ do
   echo "Worker log" > /dev/tty1
 	tail  ~fetch/nohup.out  >/dev/tty1 2>&1 
 	ls -ltra /home/fetch/prj/blogspot-comment-backup/output/  >/dev/tty1 2>&1 
-	sleep 25
+	sleep 20
 done
 EOL
 chmod +x logtotty1.sh
@@ -42,9 +43,9 @@ cat > service.sh <<EOL
 #!/bin/bash
 cd ~fetch/prj/blogspot-comment-backup/
 git pull 
-nohup su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh > ~/nohup.out 2>&1 &" &
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh > ~/nohup.out 2>&1 &" &
 cd ~
-nohup ./logtotty1.sh &
+su - root -c "./logtotty1.sh" &
 EOL
 chmod +x service.sh
 
@@ -67,12 +68,15 @@ After=multi-user.target
 [Service]
 ExecStart=/root/service.sh
 ExecStop=/root/service_stop.sh
+ExecStopPost=/usr/bin/echo "ExecStopPost"
 
 [Install]
 WantedBy=default.target
 EOL
 
+systemctl daemon-reload
 systemctl enable worker.service
+systemctl daemon-reload
 systemctl stop worker.service
 systemctl start worker.service
 
