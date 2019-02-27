@@ -46,8 +46,8 @@ git pull
 su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh > ~/nohup.out 2>&1 &" &
 cd ~
 su - root -c "./logtotty1.sh" &
-sleep 259200
-shutdown -p
+sleep 1259200
+shutdown -p now
 EOL
 chmod +x service.sh
 
