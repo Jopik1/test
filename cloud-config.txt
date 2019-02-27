@@ -1,7 +1,11 @@
 #cloud-config
 
+#for deploy on fedora
+
 final_message: "Done booting fimal message"
 runcmd:
  - "yum -y install python37 git wget"
  - "wget https://raw.githubusercontent.com/Jopik1/test/master/deploy.sh -O deploy.sh"
  - "sh ./deploy.sh"
+ 
+
