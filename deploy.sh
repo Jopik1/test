@@ -67,8 +67,6 @@ After=multi-user.target
 
 [Service]
 ExecStart=/root/service.sh
-ExecStop=/root/service_stop.sh
-ExecStopPost=/usr/bin/echo "ExecStopPost"
 
 [Install]
 WantedBy=default.target
