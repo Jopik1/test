@@ -27,7 +27,7 @@ do
 done
 EOL
 chmod +x runloop.sh
-su - fetch -c "nohup ~/prj/blogspot-comment-backup/src/runloop.sh &"
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh > ~/nohup.out 2>&1 &"
 
 cd ~
 
