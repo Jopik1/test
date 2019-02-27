@@ -46,6 +46,8 @@ git pull
 su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh > ~/nohup.out 2>&1 &" &
 cd ~
 su - root -c "./logtotty1.sh" &
+sleep 259200
+shutdown -p
 EOL
 chmod +x service.sh
 
@@ -67,6 +69,8 @@ After=multi-user.target
 
 [Service]
 ExecStart=/root/service.sh
+ExecStop=/usr/bin/echo "ExecStop"
+ExecStopPost=/usr/bin/echo "ExecStopPost"
 
 [Install]
 WantedBy=default.target
