@@ -10,7 +10,7 @@ cd ~fetch
 rm -rf prj
 mkdir prj
 cd prj
-git clone https://github.com/Jopik1/blogspot-comment-backup
+git clone https://github.com/afrmtbl/blogspot-comment-backup
 chown -R fetch:fetch *
 cd blogspot-comment-backup/src
 
