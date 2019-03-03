@@ -43,8 +43,8 @@ cat > service.sh <<EOL
 #!/bin/bash
 cd ~fetch/prj/blogspot-comment-backup/
 git pull 
-su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh > ~/nohup.out 2>&1 &" &
-su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh > ~/nohup.out 2>&1 &" &
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/nohup.out 2>&1 &" &
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/nohup.out 2>&1 &" &
 cd ~
 su - root -c "./logtotty1.sh" &
 sleep 1259200
