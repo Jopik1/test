@@ -31,10 +31,23 @@ cat > logtotty1.sh <<EOL
 while true
 do
   date > /dev/tty1
-  tail -n 500 ~fetch/nohup.out | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
-	tail  ~fetch/nohup.out  >/dev/tty1 2>&1 
-	ls -ltra /home/fetch/prj/blogspot-comment-backup/output/  >/dev/tty1 2>&1 
-	sleep 10
+  tail -n 5  ~fetch/worker1.out  >/dev/tty1 2>&1 
+  tail -n 5  ~fetch/worker1.out  >/dev/tty1 2>&1 
+  tail -n 5  ~fetch/worker2.out  >/dev/tty1 2>&1 
+  tail -n 5  ~fetch/worker3.out  >/dev/tty1 2>&1 
+  tail -n 5  ~fetch/worker4.out  >/dev/tty1 2>&1 
+  tail -n 5  ~fetch/worker5.out  >/dev/tty1 2>&1 
+  tail -n 5  ~fetch/worker6.out  >/dev/tty1 2>&1 
+  
+  ls -ltra /home/fetch/prj/blogspot-comment-backup/output/  >/dev/tty1 2>&1 
+  tail -n 500 ~fetch/worker1.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
+  tail -n 500 ~fetch/worker2.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
+  tail -n 500 ~fetch/worker3.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
+  tail -n 500 ~fetch/worker4.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
+  tail -n 500 ~fetch/worker5.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
+  tail -n 500 ~fetch/worker6.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
+  
+  sleep 10
 done
 EOL
 chmod +x logtotty1.sh
@@ -43,9 +56,17 @@ cat > service.sh <<EOL
 #!/bin/bash
 cd ~fetch/prj/blogspot-comment-backup/
 git pull 
-su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/nohup.out 2>&1 &" &
-sleep 20
-su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/nohup.out 2>&1 &" &
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker1.out 2>&1 &" &
+sleep 10
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker2.out 2>&1 &" &
+sleep 10
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker3.out 2>&1 &" &
+sleep 10
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker4.out 2>&1 &" &
+sleep 10
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker5.out 2>&1 &" &
+sleep 10
+su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker6.out 2>&1 &" &
 cd ~
 su - root -c "./logtotty1.sh" &
 sleep 1259200
