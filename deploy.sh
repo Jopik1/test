@@ -100,8 +100,8 @@ WantedBy=default.target
 EOL
 
 systemctl daemon-reload
-systemctl enable worker.service
+systemctl enable worker
 systemctl daemon-reload
-systemctl stop worker.service
-systemctl start worker.service
+systemctl stop worker
+systemctl start worker
 
