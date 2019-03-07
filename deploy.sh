@@ -39,12 +39,11 @@ do
   date > /dev/tty1
   tail -n 5  ~fetch/worker1.out  >/dev/tty1 2>&1 
   tail -n 5  ~fetch/worker2.out  >/dev/tty1 2>&1 
-  tail -n 5  ~fetch/worker3.out  >/dev/tty1 2>&1 
-   
+     
   ls -ltra /home/fetch/prj/blogspot-comment-backup/output/  >/dev/tty1 2>&1 
   tail -n 500 ~fetch/worker1.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
   tail -n 500 ~fetch/worker2.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
-  tail -n 500 ~fetch/worker3.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
+  
   sleep 10
 done
 EOL
@@ -67,9 +66,6 @@ git pull
 su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker1.out 2>&1 &" &
 sleep 10
 su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker2.out 2>&1 &" &
-sleep 10
-su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker3.out 2>&1 &" &
-sleep 10
 cd ~
 su - root -c "./logtotty1.sh" &
 sleep 1259200
