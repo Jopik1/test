@@ -5,6 +5,12 @@ wget https://bootstrap.pypa.io/get-pip.py
 python3.7 get-pip.py
 python3.7 -m pip install aiohttp 
 python3.7 -m pip install tldextract
+
+fallocate -l 2G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+
 useradd fetch
 cd ~fetch
 rm -rf prj
@@ -33,20 +39,27 @@ do
   date > /dev/tty1
   tail -n 5  ~fetch/worker1.out  >/dev/tty1 2>&1 
   tail -n 5  ~fetch/worker2.out  >/dev/tty1 2>&1 
-
   
   ls -ltra /home/fetch/prj/blogspot-comment-backup/output/  >/dev/tty1 2>&1 
   tail -n 500 ~fetch/worker1.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
   tail -n 500 ~fetch/worker2.out  | grep BATCH | tail -n 1 >/dev/tty1 2>&1 
-
   
   sleep 10
 done
 EOL
 chmod +x logtotty1.sh
 
+cat > /etc/selinux/config << EOL
+SELINUX=disabled
+SELINUXTYPE=targeted
+EOL
+
+setenforce Permissive
+
+
 cat > service.sh <<EOL
 #!/bin/bash
+swapon /swapfile
 cd ~fetch/prj/blogspot-comment-backup/
 git pull 
 su - fetch -c "~/prj/blogspot-comment-backup/src/runloop.sh >> ~/worker1.out 2>&1 &" &
@@ -75,12 +88,10 @@ cat >/etc/systemd/system/worker.service <<EOL
 [Unit]
 Description=download worker
 After=multi-user.target
-
 [Service]
 ExecStart=/root/service.sh
 ExecStop=/usr/bin/echo "ExecStop"
 ExecStopPost=/usr/bin/echo "ExecStopPost"
-
 [Install]
 WantedBy=default.target
 EOL
